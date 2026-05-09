@@ -2,8 +2,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -12,14 +11,19 @@ var app = builder.Build();
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 app.Urls.Add($"http://+:{port}");
 
-// Configure the HTTP request pipeline.
+// Swagger
+app.UseSwagger();
+app.UseSwaggerUI();
 
-    app.UseSwagger();
-    app.UseSwaggerUI();
-
-
-app.UseHttpsRedirection();
+// Only redirect HTTPS locally
+if (!app.Environment.IsProduction())
+{
+    app.UseHttpsRedirection();
+}
 
 app.MapControllers();
+
+// Optional homepage
+app.MapGet("/", () => "MenesesLibraryNowAPI is running!");
 
 app.Run();
