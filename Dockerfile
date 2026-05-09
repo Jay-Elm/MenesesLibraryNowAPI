@@ -12,4 +12,4 @@ RUN dotnet publish "MenesesLibraryNowAPI/MenesesLibraryNowAPI.csproj" -c Release
 FROM base AS final
 WORKDIR /app
 COPY --from=build /app/out .
-ENTRYPOINT ["dotnet", "MenesesLibraryNowAPI.dll"]S
+ENTRYPOINT ["dotnet", "MenesesLibraryNowAPI.dll"]
